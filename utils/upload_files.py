@@ -8,11 +8,13 @@ from utils.constants import TYPES
 from utils.helpers import remove_offset_from_julian_date
 
 
-def upload_files(start_date, files):
+def upload_files(start_date, files, wd = None):
     output_files = 'user_output_files'
+    if not (wd is None):
+        output_files = wd + "/" + output_files
 
     for file in files:
-        file_name = output_files + '/' + file.split('/')[1].split('.csv')[0]
+        file_name = output_files + '/' + file.split('/')[-1].split('.csv')[0]
         dataset = read_csv_to_arrays(file)
         matrix = MatrixConversion(
             dataset['date'], dataset['flow'], start_date)

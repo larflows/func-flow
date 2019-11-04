@@ -12,7 +12,6 @@ library(dplyr)
 library(tidyr)
 
 EFF_DIR <- file.path("Z:", "adit", "Desktop", "LARFlows", "code", "func-flow")
-setwd(EFF_DIR)
 INPUT_DIR <- "user_input_files"
 OUTPUT_DIR <- "user_output_files"
 MATRIX_EXT <- "_annual_flow_matrix.csv"
@@ -94,9 +93,9 @@ get_drh <- function(gagename, basepath = EFF_DIR, outdir = OUTPUT_DIR, dext = DR
 upload_files <- function(gagenames, basepath = EFF_DIR, indir = INPUT_DIR, start_date = "10/1") {
   # Upload all files.
   # Note: use of lapply and not vapply because a length-1 vector will be treated by Python as a string
-  uf <- import("utils.upload_files")
-  files <- lapply(gagenames, function(x) file.path(indir, paste0(x, ".csv")))
-  uf$upload_files(start_date, files)
+  uf <- import_from_path("utils.upload_files", basepath)
+  files <- lapply(gagenames, function(x) file.path(basepath, indir, paste0(x, ".csv")))
+  uf$upload_files(start_date, files, basepath)
 }
 
 upload_gagedata <- function(gagedata, basepath = EFF_DIR, indir = INPUT_DIR, start_date = "10/1") {
