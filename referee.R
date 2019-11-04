@@ -93,9 +93,9 @@ get_drh <- function(gagename, basepath = EFF_DIR, outdir = OUTPUT_DIR, dext = DR
 
 upload_files <- function(gagenames, basepath = EFF_DIR, indir = INPUT_DIR, start_date = "10/1") {
   # Upload all files.
-  # Note: must list multiple files or Python gets grouchy due to R vector behavior
+  # Note: use of lapply and not vapply because a length-1 vector will be treated by Python as a string
   uf <- import("utils.upload_files")
-  files <- vapply(gagenames, function(x) file.path(indir, paste0(x, ".csv")), "s")
+  files <- lapply(gagenames, function(x) file.path(indir, paste0(x, ".csv")))
   uf$upload_files(start_date, files)
 }
 
@@ -116,9 +116,19 @@ upload_gagedata <- function(gagedata, basepath = EFF_DIR, indir = INPUT_DIR, sta
 process_gages <- function(gagedata, basepath = EFF_DIR, indir = INPUT_DIR, outdir = OUTPUT_DIR, start_date = "10/1") {
   # Accepts gage data with gage (character), date (mm/dd/yyyy), and flow (cfs)
   # Returns a list of data frames, one for each gage
-  gages <- unique(gagedata$gage)
-  upload_gagedata(gagedata, basepath, indir, start_date)
-  lapply(gages, function(g) {get_annual_flow_result(g, basepath, outdir)})
+  # If check: allows the use of data for a single gage without specified gage name
+  if ("gage" %in% colnames(gagedata)) {
+    gages <- unique(gagedata$gage)
+    upload_gagedata(gagedata, basepath, indir, start_date)
+    lapply(gages, function(g) {get_annual_flow_result(g, basepath, outdir)})
+  } else process_gage(gagedata, basepath, indir, outdir, start_date)
+}
+
+process_gage <- function(gagedata, basepath = EFF_DIR, indir = INPUT_DIR, outdir = OUTPUT_DIR, start_date = "10/1",
+                         gagename = "gage") {
+  # Like process_gages, but for just one gage (name optional)
+  gagedata$gage <- gagename
+  process_gages(gagedata)[[1]]
 }
 
 # ----------------------------------------------------
