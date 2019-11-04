@@ -130,4 +130,9 @@ process_gage <- function(gagedata, basepath = EFF_DIR, indir = INPUT_DIR, outdir
   process_gages(gagedata)[[1]]
 }
 
+gage_mean <- function(gage) {
+  # Return mean annual data
+  colMeans(gage, na.rm = T)
+}
+
 # ----------------------------------------------------
