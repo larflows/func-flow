@@ -45,6 +45,40 @@ make_input_df <- function(dates, flows) {
   data.frame(date = dates, flow = flows)
 }
 
+format_input_df <- function(indf, gagecol = 1, datecol = 2, flowcol = 3,
+                            usegage = T, gagename = NULL,
+                            datetype = as.Date, origin = "1970/01/01",
+                            flowconvert = function(x) x) {
+  # Prepare an appropriately-formatted data frame given arbitrary input types
+  # Columns can be specified as strings or as column numbers
+  # If there is not a gage column, set 'usegage' to false.  If gagename is specified, it will add
+  # a gage column containing gagename.
+  # datetype tells the function how to convert dates, with format(datetype(date, origin = origin), format = ...).
+  # If the dates are in the correct format (string mm/dd/yyyy), then use datetype = NULL.
+  # The default flowconvert function assumes flows in CFS.  If flows are not in CFS, provide a conversion
+  # function.
+  getcol <- function(cid) {
+    indf[[cid]]
+  }
+  
+  gage <- if (usegage) getcol(gagecol) else gagename
+  date <- if (is.null(datetype)) getcol(datecol)
+    else vapply(
+      getcol(datecol),
+      function(x) format(datetype(x, origin = origin), format = "%m/%d/%Y"),
+      "s"
+    )
+  flow <- vapply(
+    getcol(flowcol),
+    flowconvert,
+    1
+  )
+  outdf <- make_input_df(date, flow)
+  if (!is.null(gage)) outdf$gage <- gage
+  
+  outdf
+}
+
 write_input_df <- function(gagename, input_df, basepath = EFF_DIR, indir = INPUT_DIR) {
   # Write the input data frame (assumed to be in suitable format) to <gagename>.csv in
   # basepath/indir. (usually user_input_files)
@@ -121,6 +155,17 @@ process_gages <- function(gagedata, basepath = EFF_DIR, indir = INPUT_DIR, outdi
     upload_gagedata(gagedata, basepath, indir, start_date)
     lapply(gages, function(g) {get_annual_flow_result(g, basepath, outdir)})
   } else process_gage(gagedata, basepath, indir, outdir, start_date)
+}
+
+format_and_process <- function(gagedata, basepath = EFF_DIR, indir = INPUT_DIR, outdir = OUTPUT_DIR, start = "10/1",
+                               gagecol = 1, datecol = 2, flowcol = 3, usegage = T, gagename = NULL,
+                               datetype = as.Date, origin = "1970/01/01", flowconvert = function(x) x) {
+  # Wraps process_gages to run stuff through the formatter first
+  format_input_df(
+    gagedata, gagecol, datecol, flowcol, usegage = "gage" %in% colnames(gagedata), gagename,
+    datetype, origin, flowconvert
+  ) %>%
+    process_gages(basepath, indir, outdir, start)
 }
 
 process_gage <- function(gagedata, basepath = EFF_DIR, indir = INPUT_DIR, outdir = OUTPUT_DIR, start_date = "10/1",
