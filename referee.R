@@ -11,12 +11,16 @@ library(reticulate)
 library(dplyr)
 library(tidyr)
 
-EFF_DIR <- file.path("Z:", "adit", "Desktop", "LARFlows", "code", "func-flow")
+
+EFF_DIR <- "/home/daniel/research/func-flow"
 INPUT_DIR <- "user_input_files"
 OUTPUT_DIR <- "user_output_files"
 MATRIX_EXT <- "_annual_flow_matrix.csv"
 RESULT_EXT <- "_annual_flow_result.csv"
 DRH_EXT <- "_drh.csv"
+PYTHON_PATH <- "/usr/bin/python3"
+
+use_python(PYTHON_PATH)
 
 example_gagedata <- function(startdate = "2009/10/01", stopdate = "2019/10/01", mean = 100, sd = 50, gages = 1:10) {
   result <- data.frame()
