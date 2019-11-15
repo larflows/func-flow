@@ -4,4 +4,9 @@ removed_gauges = {10264750: 3,11191000: {'class': 2, 'start': 1945, 'end': 1952}
 
 test_gauges = {99999999: {'class': 1, 'start': 1953, 'end': 1976}, 99999998: {'class': 2, 'start': 1950, 'end': 1959}, 99999997: {'class': 3, 'start': 1957, 'end': 1974}, 99999996: {'class': 4, 'start': 1950, 'end': 1959}, 99999995: {'class': 5, 'start': 1950, 'end': 1959}, 99999994: {'class': 6, 'start': 1953, 'end': 1962}, 99999993: {'class': 7, 'start': 1979, 'end': 1988}, 99999992: {'class': 8, 'start': 1953, 'end': 1976}, 99999991: {'class': 9, 'start': 1965, 'end': 1974}, 99999990: {'class': 1, 'start': 1951, 'end': 1960}, 99999989: {'class': 2, 'start': 1946, 'end': 1955}, 99999988: {'class': 3, 'start': 1967, 'end': 1976}, 99999987: {'class': 4, 'start': 1962, 'end': 1970}, 99999986: {'class': 5, 'start': 1959, 'end': 2004}, 99999985: {'class': 6, 'start': 1980, 'end': 1989}, 99999984: {'class': 7, 'start': 1997, 'end': 2006}, 99999983: {'class': 9, 'start': 1989, 'end': 1998}, 99999982: {'class': 9, 'start': 1950, 'end': 1959}}
 
-gauge_reference = {**regular_gauges, **test_gauges}
+# gauge_reference = {**regular_gauges, **test_gauges}
+gauge_reference = {}
+for key in regular_gauges.keys():
+    gauge_reference[key] = regular_gauges[key]
+for key in test_gauges.keys():
+    gauge_reference[key] = test_gauges[key]
