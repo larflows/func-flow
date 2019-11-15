@@ -60,7 +60,7 @@ This project uses [Python3](https://www.python.org/)
 3. Clone your project in [Command Prompt](http://www.informit.com/blogs/blog.aspx?uk=The-10-Most-Important-Linux-Commands)
 
    ```
-   git clone https://github.com/leogoesger/func-flow.git
+   git clone https://github.com/larflows/func-flow.git
    cd func-flow
    ```
 
