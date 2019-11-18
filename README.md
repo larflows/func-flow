@@ -88,9 +88,11 @@ This project uses [Python3](https://www.python.org/)
 ## Using referee (R interface)
 
 The R interface allows uploading from data frames and reading out results.  For now, the variable EFF_DIR in referee.R must be
-set to the top-level func-flow directory.  Also, the PYTHON_PATH variable must be set to the location of Python
-3 (the script may not work with Python 2).
-Otherwise, the script should work out of the box.
+set to the top-level func-flow directory.  Python 3 must be used; if a virtual environment is being used,
+set VENV_PATH appropriately and uncomment the line that calls `use_virtualenv`.  Otherwise, make sure
+PYTHON_PATH is set appropriately to use Python 3.  The program will not work with Python 2.  If dependencies
+were installed to the virtual env (following the instructions above), then the virtual env must be used as
+the dependencies will not have been installed globally.
 
 Multi-gage flow data can be uploaded through `upload_gagedata`, which requires a data frame with the columns `gage` (character),
 `data` (character - mm/dd/yyyy), and `flow` (cfs).  The data for a single gage can be uploaded by using `write_input_df` and then
