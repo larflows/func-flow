@@ -7,12 +7,7 @@ from calculations.AllMetrics import Metrics
 from utils.constants import TYPES
 from utils.helpers import remove_offset_from_julian_date
 
-
-<<<<<<< HEAD
 def upload_files(start_date, files, flow_class, wd = None):
-=======
-def upload_files(start_date, files, flow_class):
->>>>>>> aa04437e6ecbc174226407207188c342e3fbebac
     output_files = 'user_output_files'
     if not (wd is None):
         output_files = wd + "/" + output_files
