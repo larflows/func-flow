@@ -8,7 +8,11 @@ from utils.constants import TYPES
 from utils.helpers import remove_offset_from_julian_date
 
 
+<<<<<<< HEAD
 def upload_files(start_date, files, flow_class, wd = None):
+=======
+def upload_files(start_date, files, flow_class):
+>>>>>>> aa04437e6ecbc174226407207188c342e3fbebac
     output_files = 'user_output_files'
     if not (wd is None):
         output_files = wd + "/" + output_files
@@ -31,7 +35,7 @@ def upload_files(start_date, files, flow_class, wd = None):
     return True
 
 
-def get_result(matrix, julian_start_date, params):
+def get_result(matrix, julian_start_date, params, flow_class):
 
     result = {}
     result["year_ranges"] = [int(i) + 1 for i in matrix.year_array]
@@ -40,7 +44,7 @@ def get_result(matrix, julian_start_date, params):
     result["start_date"] = matrix.start_date
 
     calculated_metrics = Metrics(
-        matrix.flow_matrix, matrix.years_array, None, None, params)
+        matrix.flow_matrix, matrix.years_array, None, None, params, flow_class)
 
     result["DRH"] = calculated_metrics.drh
 
