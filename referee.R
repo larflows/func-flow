@@ -134,12 +134,12 @@ get_drh <- function(gagename, basepath = EFF_DIR, outdir = OUTPUT_DIR, dext = DR
   get_output_df(gagename, basepath, outdir, dext)
 }
 
-upload_files <- function(gagenames, basepath = EFF_DIR, indir = INPUT_DIR, start_date = "10/1") {
+upload_files <- function(gagenames, basepath = EFF_DIR, indir = INPUT_DIR, start_date = "10/1", flow_class = 3) {
   # Upload all files.
   # Note: use of lapply and not vapply because a length-1 vector will be treated by Python as a string
   uf <- import_from_path("utils.upload_files", basepath)
   files <- lapply(gagenames, function(x) file.path(basepath, indir, paste0(x, ".csv")))
-  uf$upload_files(start_date, files, basepath)
+  uf$upload_files(start_date, files, flow_class, basepath)
 }
 
 upload_gagedata <- function(gagedata, basepath = EFF_DIR, indir = INPUT_DIR, start_date = "10/1") {

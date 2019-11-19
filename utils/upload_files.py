@@ -8,7 +8,7 @@ from utils.constants import TYPES
 from utils.helpers import remove_offset_from_julian_date
 
 
-def upload_files(start_date, files, wd = None):
+def upload_files(start_date, files, flow_class, wd = None):
     output_files = 'user_output_files'
     if not (wd is None):
         output_files = wd + "/" + output_files
@@ -22,7 +22,7 @@ def upload_files(start_date, files, wd = None):
         julian_start_date = datetime.strptime(
             "{}/2001".format(start_date), "%m/%d/%Y").timetuple().tm_yday
 
-        result = get_result(matrix, julian_start_date, None)
+        result = get_result(matrix, julian_start_date, None, flow_class)
 
         write_to_csv(file_name, result, 'annual_flow_matrix')
         write_to_csv(file_name, result, 'drh')
