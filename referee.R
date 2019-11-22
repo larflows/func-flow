@@ -142,7 +142,7 @@ upload_files <- function(gagenames, basepath = EFF_DIR, indir = INPUT_DIR, start
   uf$upload_files(start_date, files, flow_class, basepath)
 }
 
-upload_gagedata <- function(gagedata, basepath = EFF_DIR, indir = INPUT_DIR, start_date = "10/1") {
+upload_gagedata <- function(gagedata, basepath = EFF_DIR, indir = INPUT_DIR, start_date = "10/1", flow_class = 3) {
   # Convert gage data into files and upload it.
   # gage data should have the columns gage, date (mm/dd/yyyy), and flow.
   # Bug: upload_files is writing everything under the gage name of the second item after a "/", reason unclear
@@ -153,18 +153,19 @@ upload_gagedata <- function(gagedata, basepath = EFF_DIR, indir = INPUT_DIR, sta
     prepared_data <- make_input_df(data$date, data$flow)
     write_input_df(gage, prepared_data, basepath, indir)
   }
-  upload_files(gages, basepath, indir, start_date)
+  upload_files(gages, basepath, indir, start_date, flow_class)
 }
 
-process_gages <- function(gagedata, basepath = EFF_DIR, indir = INPUT_DIR, outdir = OUTPUT_DIR, start_date = "10/1") {
+process_gages <- function(gagedata, basepath = EFF_DIR, indir = INPUT_DIR, outdir = OUTPUT_DIR, start_date = "10/1",
+                          flow_class = 3) {
   # Accepts gage data with gage (character), date (mm/dd/yyyy), and flow (cfs)
   # Returns a list of data frames, one for each gage
   # If check: allows the use of data for a single gage without specified gage name
   if ("gage" %in% colnames(gagedata)) {
     gages <- unique(gagedata$gage)
-    upload_gagedata(gagedata, basepath, indir, start_date)
+    upload_gagedata(gagedata, basepath, indir, start_date, flow_class)
     lapply(gages, function(g) {get_annual_flow_result(g, basepath, outdir)})
-  } else process_gage(gagedata, basepath, indir, outdir, start_date)
+  } else process_gage(gagedata, basepath, indir, outdir, start_date, flow_class)
 }
 
 format_and_process <- function(gagedata, basepath = EFF_DIR, indir = INPUT_DIR, outdir = OUTPUT_DIR, start = "10/1",
@@ -178,11 +179,12 @@ format_and_process <- function(gagedata, basepath = EFF_DIR, indir = INPUT_DIR, 
     process_gages(basepath, indir, outdir, start)
 }
 
-process_gage <- function(gagedata, basepath = EFF_DIR, indir = INPUT_DIR, outdir = OUTPUT_DIR, start_date = "10/1",
-                         gagename = "gage") {
+process_gage <- function(gagedata, 
+                         gagename = "gage",
+                         ...) {
   # Like process_gages, but for just one gage (name optional)
   gagedata$gage <- gagename
-  process_gages(gagedata)[[1]]
+  process_gages(gagedata, ...)[[1]]
 }
 
 gage_mean <- function(gage) {
