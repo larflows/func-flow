@@ -19,14 +19,14 @@ MATRIX_EXT <- "_annual_flow_matrix.csv"
 RESULT_EXT <- "_annual_flow_result.csv"
 DRH_EXT <- "_drh.csv"
 # Must be Python 3
-PYTHON_PATH <- file.path("C:", "Anaconda3", "python.exe")
+# PYTHON_PATH <- file.path("C:", "Anaconda3", "python.exe")
 # Replace "virtualenv" with whatever the virtual env is called
 VENV_PATH <- file.path(EFF_DIR, "virtualenv")
 
 
 # If using virtual env, comment use_python and uncomment use_virtualenv.
-use_python(PYTHON_PATH, required = T)
-# use_virtualenv(VENV_PATH, required = T)
+# use_python(PYTHON_PATH, required = T)
+use_virtualenv(VENV_PATH, required = T)
 
 example_gagedata <- function(startdate = "2009/10/01", stopdate = "2019/10/01", mean = 100, sd = 50, gages = 1:10) {
   result <- data.frame()
