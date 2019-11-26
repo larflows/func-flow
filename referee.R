@@ -12,16 +12,17 @@ library(dplyr)
 library(tidyr)
 
 
-EFF_DIR <- file.path("Z:", "adit", "Desktop", "LARFlows", "code", "func-flow")
+# EFF_DIR <- file.path("Z:", "adit", "Desktop", "LARFlows", "code", "func-flow")
+EFF_DIR <- "/home/daniel/research/func-flow"
 INPUT_DIR <- "user_input_files"
 OUTPUT_DIR <- "user_output_files"
 MATRIX_EXT <- "_annual_flow_matrix.csv"
 RESULT_EXT <- "_annual_flow_result.csv"
 DRH_EXT <- "_drh.csv"
 # Must be Python 3
-# PYTHON_PATH <- file.path("C:", "Anaconda3", "python.exe")
+PYTHON_PATH <- file.path("/usr/bin/python3")
 # Replace "virtualenv" with whatever the virtual env is called
-VENV_PATH <- file.path(EFF_DIR, "virtualenv")
+VENV_PATH <- file.path(EFF_DIR, "virtual")
 
 
 # If using virtual env, comment use_python and uncomment use_virtualenv.

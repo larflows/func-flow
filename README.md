@@ -87,9 +87,7 @@ This project uses [Python3](https://www.python.org/)
 
 ## Using referee (R interface)
 
-General note: during installation of dependencies, some may fail to install.  Only numpy, pandas and spicy
-are required for the components of func-flow used by referee, so it will quite likely be able to run successfully
-anyway.
+General note: during installation of dependencies, some may fail to install.  If this occurs, run `pip install numpy`, `pip install pandas`, and `pip install scipy`, as these are the three libraries required for referee.
 
 The R interface allows uploading from data frames and reading out results.  For now, the variable EFF_DIR in referee.R must be
 set to the top-level func-flow directory.  Python 3 must be used; if a virtual environment is being used (as per
